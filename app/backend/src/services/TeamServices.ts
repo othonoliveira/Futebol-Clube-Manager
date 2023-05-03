@@ -1,5 +1,5 @@
-import Teams from "../database/classes/Teams";
-import { DefaultReturn } from "../interfaces/TeamInterface";
+import Teams from '../database/classes/Teams';
+import { DefaultReturn } from '../interfaces/TeamInterface';
 
 export default class TeamService {
   private team: Teams | null = new Teams();

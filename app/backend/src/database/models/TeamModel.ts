@@ -1,5 +1,5 @@
-import db from '.';
 import Teams from '../classes/Teams';
+import db from '.';
 import { INTEGER,
   STRING } from 'sequelize';
 

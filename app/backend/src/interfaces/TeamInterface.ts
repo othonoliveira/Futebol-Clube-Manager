@@ -1,4 +1,4 @@
-import Teams from "../database/classes/Teams";
+import Teams from '../database/classes/Teams';
 
 export interface DefaultReturn {
   status: number,
