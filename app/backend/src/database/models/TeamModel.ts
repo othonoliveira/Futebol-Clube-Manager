@@ -1,7 +1,7 @@
-import Teams from '../classes/Teams';
-import db from '.';
 import { INTEGER,
   STRING } from 'sequelize';
+import Teams from '../classes/Teams';
+import db from '.';
 
 Teams.init(
   {
