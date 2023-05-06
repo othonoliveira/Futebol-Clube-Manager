@@ -23,3 +23,5 @@ Teams.init(
     underscored: true,
   },
 );
+
+export default Teams;
