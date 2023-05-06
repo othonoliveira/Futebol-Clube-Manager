@@ -1,6 +1,6 @@
 import { INTEGER, BOOLEAN } from 'sequelize';
 import db from '.';
-import Teams from '../models/TeamModel';
+import Teams from './TeamModel';
 import Matches from '../classes/Matches';
 
 Matches.init(
