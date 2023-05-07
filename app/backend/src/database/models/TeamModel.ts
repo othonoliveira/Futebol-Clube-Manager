@@ -12,7 +12,7 @@ Teams.init(
       autoIncrement: true,
     },
     teamName: {
-      type: STRING(255),
+      type: STRING,
       allowNull: false,
     },
   },
