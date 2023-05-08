@@ -7,24 +7,24 @@ Users.init(
     id: {
       primaryKey: true,
       type: INTEGER,
-      autoIncrement: true,
       allowNull: false,
+      autoIncrement: true,
     },
     username: {
       type: STRING,
       allowNull: false,
     },
     password: {
-      type: STRING,
       allowNull: false,
+      type: STRING,
     },
     email: {
-      type: STRING,
       allowNull: false,
+      type: STRING,
     },
     role: {
-      type: STRING,
       allowNull: false,
+      type: STRING,
     },
   },
   {

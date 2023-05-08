@@ -6,10 +6,10 @@ import Matches from '../classes/Matches';
 Matches.init(
   {
     id: {
-      type: INTEGER,
-      allowNull: false,
       primaryKey: true,
+      type: INTEGER,
       autoIncrement: true,
+      allowNull: false,
     },
     homeTeamId: {
       type: INTEGER,

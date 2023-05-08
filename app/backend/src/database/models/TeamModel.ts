@@ -6,12 +6,13 @@ import db from '.';
 Teams.init(
   {
     id: {
-      type: INTEGER,
-      allowNull: false,
       primaryKey: true,
+      type: INTEGER,
       autoIncrement: true,
+      allowNull: false,
     },
     teamName: {
+      field: 'team_name',
       type: STRING,
       allowNull: false,
     },
