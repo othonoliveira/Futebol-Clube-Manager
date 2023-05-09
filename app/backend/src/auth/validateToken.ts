@@ -11,4 +11,13 @@ const validateToken = (token: string) => {
   }
 };
 
+export const validateRole = (token: string) => {
+  try {
+    const userData = verify(token, secret);
+    return userData;
+  } catch (error) {
+    return false;
+  }
+};
+
 export default validateToken;

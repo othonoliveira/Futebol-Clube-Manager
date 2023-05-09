@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import validateToken from '../auth/validateToken';
+import { validateRole } from '../auth/validateToken';
 import { ILoginReturn } from '../interfaces/UserInterfaces';
 import UserServices from '../services/UserServices';
 
@@ -30,12 +30,13 @@ export default class UserControler {
   };
 
   getRole = async (req: Request, res: Response) => {
-    const { email } = req.body;
     const { authorization } = req.headers;
     if (!authorization) return res.status(401).json({ message: 'Token not found' });
 
-    const isValid = validateToken(authorization);
-    if (!isValid) return res.status(401).json({ message: 'Token must be a valid token' });
+    const isValid = validateRole(authorization);
+    if (isValid === false) return res.status(401).json({ message: 'Token must be a valid token' });
+    req.body = isValid;
+    const { email } = req.body;
 
     const { status, message }:ILoginReturn = await this.Service.getRole(email);
 

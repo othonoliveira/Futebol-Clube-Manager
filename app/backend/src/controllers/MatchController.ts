@@ -69,11 +69,12 @@ export default class MatchControler {
   };
 
   getMatchByQuery = async (req: Request, res: Response) => {
-    const { query } = req.query;
+    const { inProgress } = req.query;
+    console.log(inProgress);
 
-    if (query === undefined || query === '') return this.getAllMatches(req, res);
+    if (inProgress === undefined || inProgress === '') return this.getAllMatches(req, res);
 
-    const { status, message }:IReturn = await this.Service.getMatchByQuery(query !== 'false');
+    const { status, message }:IReturn = await this.Service.getMatchByQuery(inProgress !== 'false');
 
     return res.status(status).json(message);
   };
