@@ -5,6 +5,14 @@ import MatchServices from '../services/MatchServices';
 export default class MatchControler {
   constructor(private Service:MatchServices) {}
 
+  getFinishedMatch = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const { status, message }:IReturn = await this.Service.getFinishedMatch(+id);
+
+    return res.status(status).json({ message });
+  };
+
   getAllMatches = async (req: Request, res: Response) => {
     const { status, message }:IReturn = await this.Service.getAllMatches();
     return res.status(status).json(message);

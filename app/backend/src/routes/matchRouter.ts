@@ -9,4 +9,6 @@ const matchRouter = Router();
 
 matchRouter.get('/', matchControler.getMatchByQuery);
 
+matchRouter.patch('/:id/finish', matchControler.getFinishedMatch);
+
 export default matchRouter;

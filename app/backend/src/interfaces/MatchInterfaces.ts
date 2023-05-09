@@ -3,7 +3,7 @@ import { IMessage } from './UserInterfaces';
 
 export interface IReturn {
   status: number;
-  message: Matches[] | Matches | undefined | null | IMessage;
+  message: Matches[] | Matches | undefined | null | IMessage | string;
 }
 
 export interface IUpMatche {
