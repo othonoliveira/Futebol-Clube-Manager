@@ -3,7 +3,7 @@ import createToken from '../auth/createToken';
 import Users from '../database/models/UserModel';
 import { ILogin, ILoginReturn } from '../interfaces/UserInterfaces';
 
-export default class LoginServices {
+export default class UserServices {
   private token = '';
   private user: Users | null = new Users();
 

@@ -2,7 +2,7 @@ import Matches from '../database/models/MatchesModel';
 import Teams from '../database/models/TeamModel';
 import { IMatch, IReturn, IUpdateMatche } from '../interfaces/MatchInterfaces';
 
-export default class MatchService {
+export default class MatchServices {
   private matches: Matches[] = [];
   private match: Matches | null = new Matches();
 
