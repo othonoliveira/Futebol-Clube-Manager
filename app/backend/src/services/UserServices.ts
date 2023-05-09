@@ -1,4 +1,4 @@
-import { compareSync } from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 import createToken from '../auth/createToken';
 import Users from '../database/models/UserModel';
 import { ILogin, ILoginReturn } from '../interfaces/UserInterfaces';
@@ -12,7 +12,7 @@ export default class LoginServices {
 
     if (!user) return { status: 401, message: 'Invalid email or password' };
 
-    if (!compareSync(password, user.password)) {
+    if (!bcrypt.compareSync(password, user.password)) {
       return { status: 401, message: 'Invalid email or password' };
     }
 
