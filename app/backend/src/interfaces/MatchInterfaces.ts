@@ -6,7 +6,7 @@ export interface IReturn {
   message: Matches[] | Matches | undefined | null | IMessage | string;
 }
 
-export interface IUpMatche {
+export interface IUpdateMatche {
   id: number;
   homeTeamGoals: number;
   awayTeamGoals: number;

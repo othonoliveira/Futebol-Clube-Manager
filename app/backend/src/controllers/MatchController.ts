@@ -1,10 +1,21 @@
 import { Request, Response } from 'express';
+import validateToken from '../auth/validateToken';
 import { IReturn } from '../interfaces/MatchInterfaces';
 import MatchServices from '../services/MatchServices';
-import validateToken from '../auth/validateToken';
 
 export default class MatchControler {
   constructor(private Service:MatchServices) {}
+
+  updateOnGoingMatch = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+
+    const { status, message }:IReturn = await this.Service.updateOnGoingMatch({
+      id: +id, homeTeamGoals, awayTeamGoals,
+    });
+
+    return res.status(status).send({ message });
+  };
 
   getFinishedMatch = async (req: Request, res: Response) => {
     const { id } = req.params;

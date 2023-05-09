@@ -11,4 +11,6 @@ matchRouter.get('/', matchControler.getMatchByQuery);
 
 matchRouter.patch('/:id/finish', matchControler.getFinishedMatch);
 
+matchRouter.patch('/:id', matchControler.updateOnGoingMatch);
+
 export default matchRouter;
