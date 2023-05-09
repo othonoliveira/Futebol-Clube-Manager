@@ -28,6 +28,8 @@ export default class MatchControler {
       awayTeamGoals,
     });
 
+    if (typeof message === 'string') return res.status(401).json({ message });
+
     return res.status(status).send(message);
   };
 
