@@ -1,10 +1,30 @@
 import Matches from '../database/models/MatchesModel';
 import Teams from '../database/models/TeamModel';
-import { IReturn, IUpdateMatche } from '../interfaces/MatchInterfaces';
+import { IMatch, IReturn, IUpdateMatche } from '../interfaces/MatchInterfaces';
 
 export default class MatchService {
   private matches: Matches[] = [];
   private match: Matches | null = new Matches();
+
+  async addMatch(newMatch: IMatch): Promise<IReturn> {
+    if (newMatch.awayTeamId === newMatch.homeTeamId) {
+      return { status: 422,
+        message: 'It is not possible to create a match with two equal teams',
+      };
+    }
+
+    const homeTeam = await Teams.findByPk(newMatch.homeTeamId);
+
+    const awatTeam = await Teams.findByPk(newMatch.awayTeamId);
+
+    if (!homeTeam || !awatTeam) {
+      return { status: 404, message: 'There is no team with such id!' };
+    }
+
+    this.match = await Matches.create({ ...newMatch, inProgress: true });
+
+    return { status: 201, message: this.match };
+  }
 
   async updateOnGoingMatch(match: IUpdateMatche): Promise<IReturn> {
     this.match = await Matches.findByPk(match.id);
@@ -42,8 +62,8 @@ export default class MatchService {
     return { status: 200, message: this.matches };
   }
 
-  async getMatchByQuery(inProgress: boolean): Promise<IReturn> {
-    this.matches = await Matches.findAll({ where: { inProgress },
+  async getMatchByQuery(query: boolean): Promise<IReturn> {
+    this.matches = await Matches.findAll({ where: { query },
       include: [
         { model: Teams, as: 'homeTeam', attributes: { exclude: ['id'] } },
         { model: Teams, as: 'awayTeam', attributes: { exclude: ['id'] } },

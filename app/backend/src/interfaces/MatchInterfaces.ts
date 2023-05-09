@@ -12,7 +12,7 @@ export interface IUpdateMatche {
   awayTeamGoals: number;
 }
 
-export interface IMatcher {
+export interface IMatch {
   homeTeamId: number;
   awayTeamId: number;
   homeTeamGoals: number;

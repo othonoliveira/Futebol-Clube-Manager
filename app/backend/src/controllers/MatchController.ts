@@ -3,12 +3,42 @@ import validateToken from '../auth/validateToken';
 import { IReturn } from '../interfaces/MatchInterfaces';
 import MatchServices from '../services/MatchServices';
 
+const TOKEN_NOT_FOUND = 'Token not found';
+const TOKEN_NOT_VALID = 'Token must be a valid token';
+
 export default class MatchControler {
   constructor(private Service:MatchServices) {}
+
+  addMatch = async (req: Request, res: Response) => {
+    const { homeTeamId,
+      awayTeamId,
+      homeTeamGoals,
+      awayTeamGoals } = req.body;
+
+    const { authorization } = req.headers;
+    if (!authorization) return res.status(401).json({ message: TOKEN_NOT_FOUND });
+
+    const isValid = validateToken(authorization);
+    if (!isValid) return res.status(401).json({ message: TOKEN_NOT_VALID });
+
+    const { status, message }:IReturn = await this.Service.addMatch({
+      homeTeamId,
+      awayTeamId,
+      homeTeamGoals,
+      awayTeamGoals,
+    });
+
+    return res.status(status).send(message);
+  };
 
   updateOnGoingMatch = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { homeTeamGoals, awayTeamGoals } = req.body;
+    const { authorization } = req.headers;
+    if (!authorization) return res.status(401).json({ message: TOKEN_NOT_FOUND });
+
+    const isValid = validateToken(authorization);
+    if (!isValid) return res.status(401).json({ message: TOKEN_NOT_VALID });
 
     const { status, message }:IReturn = await this.Service.updateOnGoingMatch({
       id: +id, homeTeamGoals, awayTeamGoals,
@@ -20,10 +50,10 @@ export default class MatchControler {
   getFinishedMatch = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { authorization } = req.headers;
-    if (!authorization) return res.status(401).json({ message: 'Token not found' });
+    if (!authorization) return res.status(401).json({ message: TOKEN_NOT_FOUND });
 
     const isValid = validateToken(authorization);
-    if (!isValid) return res.status(401).json({ message: 'Token must be a valid token' });
+    if (!isValid) return res.status(401).json({ message: TOKEN_NOT_VALID });
 
     const { status, message }:IReturn = await this.Service.getFinishedMatch(+id);
 
@@ -32,15 +62,16 @@ export default class MatchControler {
 
   getAllMatches = async (req: Request, res: Response) => {
     const { status, message }:IReturn = await this.Service.getAllMatches();
+
     return res.status(status).json(message);
   };
 
   getMatchByQuery = async (req: Request, res: Response) => {
-    const { inProgress } = req.query;
+    const { query } = req.query;
 
-    if (inProgress === undefined || inProgress === '') return this.getAllMatches(req, res);
+    if (query === undefined || query === '') return this.getAllMatches(req, res);
 
-    const { status, message }:IReturn = await this.Service.getMatchByQuery(inProgress !== 'false');
+    const { status, message }:IReturn = await this.Service.getMatchByQuery(query !== 'false');
 
     return res.status(status).json(message);
   };
