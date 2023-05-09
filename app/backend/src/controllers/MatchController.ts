@@ -1,12 +1,18 @@
 import { Request, Response } from 'express';
 import { IReturn } from '../interfaces/MatchInterfaces';
 import MatchServices from '../services/MatchServices';
+import validateToken from '../auth/validateToken';
 
 export default class MatchControler {
   constructor(private Service:MatchServices) {}
 
   getFinishedMatch = async (req: Request, res: Response) => {
     const { id } = req.params;
+    const { authorization } = req.headers;
+    if (!authorization) return res.status(401).json({ message: 'Token not found' });
+
+    const isValid = validateToken(authorization);
+    if (!isValid) return res.status(401).json({ message: 'Token must be a valid token' });
 
     const { status, message }:IReturn = await this.Service.getFinishedMatch(+id);
 
