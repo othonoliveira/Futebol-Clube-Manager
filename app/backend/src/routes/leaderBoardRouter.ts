@@ -11,4 +11,6 @@ leaderboardRouter.get('/home', leaderboardControler.homeLeaderboard);
 
 leaderboardRouter.get('/away', leaderboardControler.awayLeaderboard);
 
+leaderboardRouter.get('/', leaderboardControler.fullLeaderboard);
+
 export default leaderboardRouter;

@@ -1,3 +1,4 @@
+import totalPoints from '../utils/totalPoints';
 import Matches from '../database/models/MatchesModel';
 import Teams from '../database/models/TeamModel';
 import { ILeaderboard } from '../interfaces/LeaderBoardsInterfaces';
@@ -7,12 +8,40 @@ import sort from '../utils/sort';
 export default class LeaderboardService {
   private leaderboard: Array<ILeaderboard> = [];
 
+  async fullLeaderboard() {
+    const teams = await Teams.findAll();
+
+    const leaderboardInfo = teams.map(async ({ id, teamName }) => {
+      const matches1: Matches[] = await Matches
+        .findAll({
+          where: { homeTeamId: id, inProgress: false } });
+
+      const matches2: Matches[] = await Matches
+        .findAll({ where: { awayTeamId: id, inProgress: false } });
+
+      return totalPoints(
+        matches1,
+        matches2,
+        { name: teamName, team1: 'homeTeamGoals', team2: 'awayTeamGoals' },
+      );
+    });
+    this.leaderboard = await Promise.all(leaderboardInfo);
+
+    return {
+      status: 200,
+      message: sort(this.leaderboard),
+    };
+  }
+
   async awayLeaderboard() {
     const teams = await Teams.findAll();
 
     const leaderboardInfo = teams.map(async ({ id, teamName }) => {
       const matchlist: Matches[] = await Matches
-        .findAll({ where: { awayTeamId: id, inProgress: false } });
+        .findAll({
+          where: {
+            awayTeamId: id, inProgress: false,
+          } });
 
       return calculatePoints(
         matchlist,
@@ -33,7 +62,10 @@ export default class LeaderboardService {
 
     const leaderboardInfo = teams.map(async ({ id, teamName }) => {
       const matchlist: Matches[] = await Matches
-        .findAll({ where: { homeTeamId: id, inProgress: false } });
+        .findAll({
+          where: {
+            homeTeamId: id, inProgress: false,
+          } });
 
       return calculatePoints(
         matchlist,
