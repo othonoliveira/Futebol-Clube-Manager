@@ -9,6 +9,7 @@ export default class UserControler {
   login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const error = 'Invalid email or password';
+    if (!email || !password) return res.status(400).json({ message: 'All fields must be filled' });
 
     const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
