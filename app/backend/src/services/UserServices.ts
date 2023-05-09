@@ -1,9 +1,9 @@
 import { compareSync } from 'bcryptjs';
 import createToken from '../auth/createToken';
-import { ILogin, ILoginReturn } from '../interfaces/UserInterfaces';
 import Users from '../database/models/UserModel';
+import { ILogin, ILoginReturn } from '../interfaces/UserInterfaces';
 
-export default class LoginService {
+export default class LoginServices {
   private token = '';
   private user: Users | null = new Users();
 
@@ -18,5 +18,14 @@ export default class LoginService {
 
     this.token = createToken(6000, { email });
     return { status: 200, message: this.token };
+  }
+
+  async getRole(email:string): Promise<ILoginReturn> {
+    this.user = await Users.findOne({ where: { email } });
+
+    return { status: 200,
+      message: {
+        role: this.user?.role,
+      } };
   }
 }

@@ -8,5 +8,6 @@ const userControler = new UserControler(userService);
 const userRouter = Router();
 
 userRouter.post('/', userControler.login);
+userRouter.get('/role', userControler.getRole);
 
 export default userRouter;
