@@ -14,4 +14,15 @@ export default class MatchService {
     });
     return { status: 200, message: this.matches };
   }
+
+  async getMatchByQuery(inProgress: boolean): Promise<IReturn> {
+    this.matches = await Matches.findAll({
+      where: { inProgress },
+      include: [
+        { model: Teams, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: Teams, as: 'awayTeam', attributes: { exclude: ['id'] } },
+      ],
+    });
+    return { status: 200, message: this.matches };
+  }
 }

@@ -7,6 +7,16 @@ export default class MatchControler {
 
   getAllMatches = async (req: Request, res: Response) => {
     const { status, message }:IReturn = await this.Service.getAllMatches();
-    return res.status(status).send(message);
+    return res.status(status).json(message);
+  };
+
+  getMatchByQuery = async (req: Request, res: Response) => {
+    const { inProgress } = req.query;
+
+    if (inProgress === undefined || inProgress === '') return this.getAllMatches(req, res);
+
+    const { status, message }:IReturn = await this.Service.getMatchByQuery(inProgress !== 'false');
+
+    return res.status(status).json(message);
   };
 }
