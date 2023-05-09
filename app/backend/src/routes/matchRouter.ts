@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import MatchControler from '../controllers/MatchController';
-import MatchService from '../services/MatchServices';
+import MatchServices from '../services/MatchServices';
 
-const matchService = new MatchService();
+const matchService = new MatchServices();
 const matchControler = new MatchControler(matchService);
 
 const matchRouter = Router();

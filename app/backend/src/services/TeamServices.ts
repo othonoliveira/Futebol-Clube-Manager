@@ -1,7 +1,7 @@
 import Teams from '../database/models/TeamModel';
 import { DefaultReturn } from '../interfaces/TeamInterface';
 
-export default class TeamService {
+export default class TeamServices {
   private team: Teams | null = new Teams();
   private teams: Teams[] = [];
 
