@@ -8,8 +8,15 @@ export default class TeamController {
   getTeamById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    const { status, message } : DefaultReturn = await this.Service.getById(+id);
+    const { status, message } : DefaultReturn = await this.Service.getTeamById(+id);
 
-    return res.status(status).send(message);
+    return res.status(status).json(message);
+  };
+
+  getAllTeams = async (_req: Request, res: Response) => {
+    const { status, message } : DefaultReturn = await this.Service.getAllTeams();
+    console.log('test:', message);
+
+    return res.status(status).json(message);
   };
 }

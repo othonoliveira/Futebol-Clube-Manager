@@ -5,8 +5,9 @@ import TeamService from '../services/TeamServices';
 const teamService = new TeamService();
 const teamControler = new TeamController(teamService);
 
-const router = Router();
+const teamRouter = Router();
 
-router.get('/:id', teamControler.getTeamById);
+teamRouter.get('/:id', teamControler.getTeamById);
+teamRouter.get('/', teamControler.getAllTeams);
 
-export default router;
+export default teamRouter;
